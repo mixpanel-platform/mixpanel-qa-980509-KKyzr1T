@@ -127,7 +127,7 @@
       var query = $('#query').html()
       MP.api.jql(query, params).done(function(res){
           debugger
-          var table = table || $('#table').DataTable()
+          var table = $('#table').DataTable()
           _.each(res[0], function(vals, prod){
             var row = _.extend({'x-at': prod}, vals)
             table.row.add(row)
