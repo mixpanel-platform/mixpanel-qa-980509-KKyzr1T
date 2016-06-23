@@ -9,6 +9,7 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
+    <div id="table"></div>
     <h1>Hello, World!</h1>
     <script id='query'>
       /*
@@ -103,6 +104,19 @@
       }
     </script>
     <script>
+      var table = $('#table').DataTable( {
+           paging: false,
+           searching: false,
+            columns: [
+                { title: "x-At" , data: 'Metric' },
+                { title: "Downloaded", data: 'downloaded' },
+                { title: "Installed", data: 'installed' },
+                { title: "Conversion", data: 'conversion' },
+                { title: "AOV", data: "aov" },
+                { title: "CR", data: "cr" },
+                { title: "Trial", data: "trial" }
+              ]
+        });
       var params = {
         'from_date': '2016-05-02',
         'to_date': '2016-06-18',
@@ -112,7 +126,13 @@
       }
       var query = $('#query').html()
       MP.api.jql(query, params).done(function(res){
-        debugger
+          debugger
+          var table = table || $('#table').DataTable()
+          _.each(res[0], function(vals, prod){
+            var row = _.extend({'x-at': prod}, vals)
+            table.row.add(row)
+          })
+         table.draw();
       })
     </script>
   </body>
