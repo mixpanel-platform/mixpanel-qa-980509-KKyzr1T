@@ -67,7 +67,7 @@
               }
               switch (item.name){
                 case 'purchase':
-                  state[item.properties['x-at']]['revenue'] +=  item.properties.amount || 0;
+                  state[item.properties['x-at']]['revenue'] +=  parseFloat(item.properties.amount) || 0;
                   state[item.properties['x-at']]['orders'] ++;
                   break;
                 case 'downloaded':
