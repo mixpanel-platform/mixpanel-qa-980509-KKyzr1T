@@ -107,7 +107,7 @@
       }
     </script>
     <script>
-    var MPdates = $('#datePicker').MPDatepicker()
+    var MPdates = $('#datepicker').MPDatepicker()
     MPdates.on('change', function(event, dateRange) { 
       runQuery()
     });
@@ -126,7 +126,7 @@
         });
     var runQuery = function(){  
       debugger
-      var dates = MPdates.val
+      var dates = MPdates.val()
       var params = {
         'from_date': dates.from,
         'to_date': dates.to,
