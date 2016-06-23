@@ -127,9 +127,8 @@
     var runQuery = function(){  
       debugger
       var dates = MPdates.val()
-      var params = {
-        'from_date': dates.from,
-        'to_date': dates.to,
+      var params = _.extend(dates,
+      {
         'filters' : [
           //{property: 'mp_country_code', value: 'TW'}
         ]
