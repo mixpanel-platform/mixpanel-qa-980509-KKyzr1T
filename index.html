@@ -127,7 +127,16 @@
     var runQuery = function(){  
       debugger
       var filters = $('#filtersCSV').val().split(/\s*;\s*/g)
-      filters = _.map(filters, function(filter){return JSON.parse(filter)})
+      filters = _.map(filters, function(filter){
+        var res
+        try {
+          res = JSON.parse(filter)
+        }
+        catch(e){
+          res = null
+        }
+        return res
+      })
       var dates = MPdates.val()
       var params = {
         'from_date': dates.from.toISOString().split('T')[0],
