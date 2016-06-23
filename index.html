@@ -127,12 +127,13 @@
     var runQuery = function(){  
       debugger
       var dates = MPdates.val()
-      var params = _.extend(dates,
-      {
+      var params = {
+        'from_date': dates.from.toISOString().split('T')[0],
+        'to_date': dates.to.toISOString().split('T')[0],
         'filters' : [
           //{property: 'mp_country_code', value: 'TW'}
         ]
-      })
+      }
       var query = $('#query').html()
       MP.api.jql(query, params).done(function(res){
      
