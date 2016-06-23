@@ -114,8 +114,6 @@
       runQuery()
     });
       var table = $('#table').DataTable( {
-           paging: false,
-           searching: false,
             columns: [
                 { title: "x-At" , data: 'x-at' },
                 { title: "Downloaded", data: 'downloaded' },
@@ -128,7 +126,7 @@
         });
     var runQuery = function(){  
       debugger
-      var filters = $('#filtersCSV').split(/\s*,\s*/g)
+      var filters = $('#filtersCSV').html().split(/\s*,\s*/g)
       var dates = MPdates.val()
       var params = {
         'from_date': dates.from.toISOString().split('T')[0],
