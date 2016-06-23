@@ -126,7 +126,7 @@
         });
     var runQuery = function(){  
       debugger
-      var filters = $('#filtersCSV').html().split(/\s*,\s*/g)
+      var filters = $('#filtersCSV').val().split(/\s*;\s*/g)
       var dates = MPdates.val()
       var params = {
         'from_date': dates.from.toISOString().split('T')[0],
