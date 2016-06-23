@@ -94,10 +94,10 @@
             _.each(props, function(val, prop){
               result[key][prop] = val;
             })
-            result[key]['conversion'] = infinity(result[key]['installed'] / result[key]['downloaded'])
-            result[key]['aov'] = infinity(result[key]['revenue'] / result[key]['orders'])
-            result[key]['cr'] = infinity(result[key]['orders'] / result[key]['installed'])
-            result[key]['trial'] = infinity(result[key]['cr'] * result[key]['aov'])
+            result[key]['conversion'] = String(infinity(result[key]['installed'] / result[key]['downloaded']).toFixed(2)) + "%"
+            result[key]['aov'] = String(infinity(result[key]['revenue'] / result[key]['orders']).toFixed(2))
+            result[key]['cr'] = String(infinity(result[key]['orders'] / result[key]['installed']).toFixed(2)) + "%"
+            result[key]['trial'] = String(infinity(result[key]['cr'] * result[key]['aov']).toFixed(2)) + "%"
           })
           return result
         })
