@@ -107,7 +107,8 @@
       }
     </script>
     <script>
-    $('#datePicker').MPDatepicker().on('change', function(event, dateRange) { 
+    var MPdates = $('#datePicker').MPDatepicker()
+    MPdates.on('change', function(event, dateRange) { 
       runQuery()
     });
       var table = $('#table').DataTable( {
@@ -125,7 +126,7 @@
         });
     var runQuery = function(){  
       debugger
-      dates = $('#datepicker').MPDatepicker().val
+      var dates = MPdates.val
       var params = {
         'from_date': dates.from,
         'to_date': dates.to,
