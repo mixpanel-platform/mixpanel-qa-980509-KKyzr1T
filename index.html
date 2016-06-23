@@ -8,8 +8,110 @@
   </head>
   <body class="mixpanel-platform-body">
     <h1>Hello, World!</h1>
+    <script id='dash'>
+      /*
+      var params = {
+        'from_date': '2016-05-02',
+        'to_date': '2016-06-18',
+        'filters' : [
+          //{property: 'mp_country_code', value: 'TW'}
+        ]
+      }
+      TODO:
+      VIZ
+      Test filters:
+      Filter Priority:
+      Date (high priority)
+      Country (low priority)
+      Region (low priority)
+      Product (property: product) (low priority)
+      Product language (property: product_language) (low priority)
+      */
+      
+      
+      var infinity = function(number){
+        var result = number
+        if (number == Infinity || number === null || number !== number){
+          result = 0
+        }
+        return result
+      }
+      
+      var filters = function(event){
+        return _.every(params.filters, function(filter){
+          return filter.value === event.properties[filter.property]
+        }) 
+      }
+      
+      function main() {
+        return Events({
+          from_date: params.from_date,
+          to_date:   params.to_date,
+          event_selectors: [{event: 'downloaded'}, {event: 'purchase'}, {event: 'installed'}]
+        })
+        .groupByUser(function(state, items){
+          state = state || {};
+          _.each(items, function(item){
+            if (filters(item)) {
+              state[item.properties['x-at']] = state[item.properties['x-at']] || {
+                downloaded: 0,
+                installed: 0,
+                revenue: 0,
+                orders: 0,
+              }
+              switch (item.name){
+                case 'purchase':
+                  state[item.properties['x-at']]['revenue'] +=  item.properties.amount || 0;
+                  state[item.properties['x-at']]['orders'] ++;
+                  break;
+                case 'downloaded':
+                  state[item.properties['x-at']]['downloaded']+=1;
+                  break;
+                case 'installed':
+                  state[item.properties['x-at']]['installed']+=1;
+                  break;
+                default:
+                  break;
+              }
+            }
+          })
+          return state
+        })
+        .map(item => item.value)
+        .reduce(mixpanel.reducer.object_merge())
+        .map(function(item){
+          var result = {}
+          _.each(item, function(props, key){
+            result[key] = result[key] || { 
+                downloaded: 0,
+                installed: 0,
+                revenue: 0,
+                orders: 0,
+            }
+            _.each(props, function(val, prop){
+              result[key][prop] = val;
+            })
+            result[key]['conversion'] = infinity(result[key]['installed'] / result[key]['downloaded'])
+            result[key]['aov'] = infinity(result[key]['revenue'] / result[key]['orders'])
+            result[key]['cr'] = infinity(result[key]['orders'] / result[key]['installed'])
+            result[key]['trial'] = infinity(result[key]['cr'] * result[key]['aov'])
+          })
+          return result
+        })
+      }
+    </script>
     <script>
-      // Run queries and display results here
+      var params = {
+        'from_date': '2016-05-02',
+        'to_date': '2016-06-18',
+        'filters' : [
+          //{property: 'mp_country_code', value: 'TW'}
+        ]
+      }
+      var query = $('.jql').html()
+      MP.api(query, params).done(function(res){
+        debugger
+      })
     </script>
   </body>
 </html>
