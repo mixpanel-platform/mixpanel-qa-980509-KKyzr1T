@@ -10,7 +10,8 @@
   </head>
   <body class="mixpanel-platform-body">
     <div id="console">
-      
+      <div id="#datePicker"></div>
+      <div id="filters"></div>
     </div>
     <table id="table" class="display" width="100%"></table>
     <script id='query'>
@@ -106,6 +107,9 @@
       }
     </script>
     <script>
+    $('#datePicker').MPDatepicker().on('change', function(event, dateRange) { 
+      runQuery()
+    });
       var table = $('#table').DataTable( {
            paging: false,
            searching: false,
@@ -119,23 +123,28 @@
                 { title: "Trial", data: "trial" }
               ]
         });
+    var runQuery = function(){  
+      dates = $('#datepicker').MPDatePicker().val
       var params = {
-        'from_date': '2016-05-02',
-        'to_date': '2016-06-18',
+        'from_date': dates.from,
+        'to_date': dates.to,
         'filters' : [
           //{property: 'mp_country_code', value: 'TW'}
         ]
       }
       var query = $('#query').html()
       MP.api.jql(query, params).done(function(res){
-          debugger
-          var table = $('#table').DataTable()
+     
+          var table = $('#table').DataTable().clear()
           _.each(res[0], function(vals, prod){
             var row = _.extend({'x-at': prod}, vals)
             table.row.add(row)
           })
          table.draw();
       })
+    }
+    
+    runQuery()
     </script>
   </body>
 </html>
