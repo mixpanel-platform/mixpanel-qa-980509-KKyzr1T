@@ -11,7 +11,9 @@
   <body class="mixpanel-platform-body">
     <div id="console">
       <div id="datepicker"></div>
-      <div id="filters"></div>
+      <div id="filters">
+        <input id="filtersCSV"><input>
+      </div>
     </div>
     <table id="table" class="display" width="100%"></table>
     <script id='query'>
@@ -126,13 +128,12 @@
         });
     var runQuery = function(){  
       debugger
+      var filters = $('#filtersCSV').split(/\s*,\s*/g)
       var dates = MPdates.val()
       var params = {
         'from_date': dates.from.toISOString().split('T')[0],
         'to_date': dates.to.toISOString().split('T')[0],
-        'filters' : [
-          //{property: 'mp_country_code', value: 'TW'}
-        ]
+        'filters' : filters
       }
       var query = $('#query').html()
       MP.api.jql(query, params).done(function(res){
